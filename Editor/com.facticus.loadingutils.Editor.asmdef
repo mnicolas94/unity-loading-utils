@@ -1,6 +1,11 @@
 {
     "name": "com.facticus.loadingutils.Editor",
-    "references": [],
+    "rootNamespace": "",
+    "references": [
+        "GUID:2a4211a3f08a2994a89f7900a61c3cd9",
+        "GUID:c35c6d9084ba1a541868fbd8c50a585a",
+        "GUID:87f0d0b9a8d159a4c94e89b339e4604a"
+    ],
     "includePlatforms": [
         "Editor"
     ],

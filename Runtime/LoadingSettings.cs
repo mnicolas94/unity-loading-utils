@@ -3,7 +3,7 @@ using Utils;
 
 namespace LoadingUtils
 {
-    [CreateAssetMenu(fileName = "LoadingSettings", menuName = "Settings/LoadingSettings", order = 0)]
+    [CreateAssetMenu(fileName = "LoadingSettings", menuName = "Facticus/LoadingUtils/LoadingSettings", order = 0)]
     public class LoadingSettings : ScriptableObjectSingleton<LoadingSettings>
     {
         [SerializeField] private string _defaultLoadingSceneName;
