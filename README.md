@@ -1,6 +1,6 @@
-# {{FRIENDLY_NAME}}
+# Loading utils
 
-{{DESCRIPTION}}
+Unity scene loading utils
 
 ## License
 

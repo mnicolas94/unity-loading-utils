@@ -1,6 +1,10 @@
 {
-    "name": "com.{{COMPANY}}.{{REPOSITORY_NAME}}",
-    "references": [],
+    "name": "com.facticus.loadingutils",
+    "references": [
+        "GUID:c35c6d9084ba1a541868fbd8c50a585a",
+        "GUID:48d718e2f73f47c48be09822f5881d60",
+        "GUID:776d03a35f1b52c4a9aed9f56d7b4229"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
