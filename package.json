@@ -7,7 +7,7 @@
   "unityRelease": "",
   "dependencies": {
     "com.facticus.asyncutils": "https://github.com/mnicolas94/unity-async-utils.git",
-    "com.facticus.utils": "0.9.5"
+    "com.facticus.utils": "0.10.0"
   },
   "keywords": [],
   "author": {
