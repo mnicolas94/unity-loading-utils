@@ -10,17 +10,58 @@ namespace LoadingUtils
 {
     public static class LoadingUtils
     {
-        public static async Task LoadSceneAsync(string sceneToLoad, Task loadingTask, Action loadedCallback)
+        public static async Task LoadSceneAsync(string sceneToLoad, Task loadingTask = null, Action loadedCallback = null)
         {
             string loadingScene = LoadingSettings.Instance.DefaultLoadingSceneName;
             await LoadSceneAsync(loadingScene, sceneToLoad, loadingTask, loadedCallback);
+        }
+        
+        public static async Task LoadSceneWithOverlapAsync(string sceneToLoad, Task loadingTask = null, Action loadedCallback = null)
+        {
+            string loadingScene = LoadingSettings.Instance.DefaultLoadingSceneName;
+            await LoadSceneWithOverlapAsync(loadingScene, sceneToLoad, loadingTask, loadedCallback);
         }
 
         public static async Task LoadSceneAsync(
             string loadingScene,
             string sceneToLoad,
-            Task loadingTask,
-            Action loadedCallback)
+            Task loadingTask = null,
+            Action loadedCallback = null)
+        {
+            float startTime = Time.time;
+            var currentScene = SceneManager.GetActiveScene();
+            // cargar escenena de carga
+            if (!string.IsNullOrEmpty(loadingScene))
+                await SceneManager.LoadSceneAsync(loadingScene, LoadSceneMode.Additive).AwaitAsync();
+            
+            // ejecutar proceso de carga opcional
+            if (loadingTask != null)
+                await loadingTask;
+            
+            // obtener barra de progreso
+            // actualizar barra de progreso
+            
+            // descargar escena vieja
+            await SceneManager.UnloadSceneAsync(currentScene).AwaitAsync();
+            
+            // cargar escena nueva
+            await SceneManager.LoadSceneAsync(sceneToLoad, LoadSceneMode.Additive).AwaitAsync();
+            
+            // ejecutar código de transición
+            loadedCallback?.Invoke();
+
+            await WaitMinLoadingTimeAsync(startTime);
+            
+            // descargar escena de carga
+            if (!string.IsNullOrEmpty(loadingScene))
+                await SceneManager.UnloadSceneAsync(loadingScene).AwaitAsync();
+        }
+        
+        public static async Task LoadSceneWithOverlapAsync(
+            string loadingScene,
+            string sceneToLoad,
+            Task loadingTask = null,
+            Action loadedCallback = null)
         {
             float startTime = Time.time;
             var currentScene = SceneManager.GetActiveScene();
