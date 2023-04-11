@@ -61,6 +61,7 @@ namespace LoadingUtils
                 return WaitTaskAndNotifyProgress(loadTask, ProgressCallback);
             });
             await Task.WhenAll(tasks);
+            _onAllLoaded.Invoke();
         }
 
         private async Task WaitTaskAndNotifyProgress(Task task, Action progressCallback)
