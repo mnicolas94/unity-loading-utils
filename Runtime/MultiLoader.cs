@@ -12,6 +12,8 @@ namespace LoadingUtils
     {
         [SerializeReference, SubclassSelector] private List<ILoader> _loaders;
 
+        [SerializeField] private bool _loadOnStart;
+        
         [SerializeField] private UnityEvent _onAllLoaded;
         [SerializeField] private UnityEvent<float> _onLoadingProgress;
 
@@ -35,10 +37,13 @@ namespace LoadingUtils
         
         private void Start()
         {
-            Load();
+            if (_loadOnStart)
+            {
+                Load();
+            }
         }
 
-        private async void Load()
+        public async void Load()
         {
             var ct = _cts.Token;
 
