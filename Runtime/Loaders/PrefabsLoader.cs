@@ -1,12 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace LoadingUtils.Loaders
 {
-    public class PrefabsLoader : MonoBehaviour, ILoader
+    [Serializable]
+    public class PrefabsLoader : ILoader
     {
         [SerializeField] private List<GameObject> _prefabs;
         
@@ -18,7 +21,7 @@ namespace LoadingUtils.Loaders
 
         private async Task LoadPrefab(GameObject prefab)
         {
-            var instance = Instantiate(prefab);
+            var instance = Object.Instantiate(prefab);
             instance.SetActive(false);
             await Task.Yield();
         }

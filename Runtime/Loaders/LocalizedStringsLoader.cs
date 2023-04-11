@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -7,7 +8,8 @@ using UnityEngine.Localization;
 
 namespace LoadingUtils.Loaders
 {
-    public class LocalizedStringsLoader : MonoBehaviour, ILoader
+    [Serializable]
+    public class LocalizedStringsLoader : ILoader
     {
         [SerializeField] private List<LocalizedString> _strings;
         

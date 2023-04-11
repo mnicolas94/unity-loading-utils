@@ -10,7 +10,7 @@ namespace LoadingUtils
 {
     public class MultiLoader : MonoBehaviour
     {
-        [SerializeReference] private List<ILoader> _loaders;
+        [SerializeReference, SubclassSelector] private List<ILoader> _loaders;
 
         [SerializeField] private UnityEvent _onAllLoaded;
         [SerializeField] private UnityEvent<float> _onLoadingProgress;

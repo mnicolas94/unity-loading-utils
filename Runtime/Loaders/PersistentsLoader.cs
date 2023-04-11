@@ -1,5 +1,6 @@
 ﻿#if EXISTS_FACTICUS_SAVESYSTEM
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -9,7 +10,8 @@ using UnityEngine;
 
 namespace LoadingUtils.Loaders
 {
-    public class PersistentsLoader : MonoBehaviour, ILoader
+    [Serializable]
+    public class PersistentsLoader : ILoader
     {
         [SerializeField] private List<ScriptableObject> _persistents;
         
