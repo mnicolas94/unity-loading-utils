@@ -9,7 +9,7 @@ using UnityEngine.Events;
 
 namespace LoadingUtils
 {
-    public class MultiLoader : MonoBehaviour
+    public class MultiLoader : MonoBehaviour, ILoader
     {
         [SerializeField] private List<SerializableInterface<ILoader>> _loaders;
 
@@ -45,10 +45,8 @@ namespace LoadingUtils
             }
         }
 
-        public async void Load()
+        public async Task Load(CancellationToken ct)
         {
-            var ct = _cts.Token;
-
             var total = _loaders.Count;
             var progress = 0;
             _onLoadingProgress.Invoke(0);
@@ -66,6 +64,12 @@ namespace LoadingUtils
             });
             await Task.WhenAll(tasks);
             _onAllLoaded.Invoke();
+        }
+
+        public async void Load()
+        {
+            var ct = _cts.Token;
+            await Load(ct);
         }
 
         private async Task WaitTaskAndNotifyProgress(Task task, Action progressCallback)
