@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using TNRD;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -10,10 +11,11 @@ namespace LoadingUtils
 {
     public class MultiLoader : MonoBehaviour
     {
-        [SerializeReference, SubclassSelector] private List<ILoader> _loaders;
+        [SerializeField] private List<SerializableInterface<ILoader>> _loaders;
 
         [SerializeField] private bool _loadOnStart;
         
+        [Header("Events")]
         [SerializeField] private UnityEvent _onAllLoaded;
         [SerializeField] private UnityEvent<float> _onLoadingProgress;
 
@@ -49,15 +51,17 @@ namespace LoadingUtils
 
             var total = _loaders.Count;
             var progress = 0;
+            _onLoadingProgress.Invoke(0);
+            
             var tasks = _loaders.Select(loader =>
             {
-                var loadTask = loader.Load(ct);
+                var loadTask = loader.Value.Load(ct);
                 void ProgressCallback()
                 {
                     progress += 1 / total;
                     _onLoadingProgress.Invoke(progress);
                 }
-
+                
                 return WaitTaskAndNotifyProgress(loadTask, ProgressCallback);
             });
             await Task.WhenAll(tasks);
