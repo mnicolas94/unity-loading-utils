@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
-using UnityEditor.Build.Content;
+using System.IO;
+using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utils.Attributes;
@@ -25,10 +27,12 @@ namespace LoadingUtils
         private List<string> GetScenesList()
         {
             var scenes = new List<string>();
+            
             for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
             {
-                var scene = SceneManager.GetSceneByBuildIndex(i);
-                scenes.Add(scene.name);
+                var scenePath = SceneUtility.GetScenePathByBuildIndex(i);
+                var sceneName = Path.GetFileNameWithoutExtension(scenePath);
+                scenes.Add(sceneName);
             }
 
             return scenes;
