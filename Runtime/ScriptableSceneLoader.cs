@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Threading;
+using AsyncUtils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utils.Attributes;
@@ -19,6 +21,12 @@ namespace LoadingUtils
         {
             var mode = _loadAdditive ? LoadSceneMode.Additive : LoadSceneMode.Single;
             SceneManager.LoadScene(_sceneName, mode);
+        }
+
+        public async void LoadSceneAsync()
+        {
+            var mode = _loadAdditive ? LoadSceneMode.Additive : LoadSceneMode.Single;
+            await SceneManager.LoadSceneAsync(_sceneName, mode).AwaitAsync(CancellationToken.None);
         }
         
 #if UNITY_EDITOR

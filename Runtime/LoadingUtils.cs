@@ -1,5 +1,6 @@
 ﻿﻿using System;
-using System.Threading.Tasks;
+ using System.Threading;
+ using System.Threading.Tasks;
 using AsyncUtils;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -29,10 +30,12 @@ namespace LoadingUtils
             Action loadedCallback = null)
         {
             float startTime = Time.time;
+            var ct = CancellationToken.None;
+                
             var currentScene = SceneManager.GetActiveScene();
             // cargar escenena de carga
             if (!string.IsNullOrEmpty(loadingScene))
-                await SceneManager.LoadSceneAsync(loadingScene, LoadSceneMode.Additive).AwaitAsync();
+                await SceneManager.LoadSceneAsync(loadingScene, LoadSceneMode.Additive).AwaitAsync(ct);
             
             // ejecutar proceso de carga opcional
             if (loadingTask != null)
@@ -42,10 +45,10 @@ namespace LoadingUtils
             // actualizar barra de progreso
             
             // descargar escena vieja
-            await SceneManager.UnloadSceneAsync(currentScene).AwaitAsync();
+            await SceneManager.UnloadSceneAsync(currentScene).AwaitAsync(ct);
             
             // cargar escena nueva
-            await SceneManager.LoadSceneAsync(sceneToLoad, LoadSceneMode.Additive).AwaitAsync();
+            await SceneManager.LoadSceneAsync(sceneToLoad, LoadSceneMode.Additive).AwaitAsync(ct);
             
             // ejecutar código de transición
             loadedCallback?.Invoke();
@@ -54,7 +57,7 @@ namespace LoadingUtils
             
             // descargar escena de carga
             if (!string.IsNullOrEmpty(loadingScene))
-                await SceneManager.UnloadSceneAsync(loadingScene).AwaitAsync();
+                await SceneManager.UnloadSceneAsync(loadingScene).AwaitAsync(ct);
         }
         
         public static async Task LoadSceneWithOverlapAsync(
@@ -64,10 +67,12 @@ namespace LoadingUtils
             Action loadedCallback = null)
         {
             float startTime = Time.time;
+            var ct = CancellationToken.None;
+            
             var currentScene = SceneManager.GetActiveScene();
             // cargar escenena de carga
             if (!string.IsNullOrEmpty(loadingScene))
-                await SceneManager.LoadSceneAsync(loadingScene, LoadSceneMode.Additive).AwaitAsync();
+                await SceneManager.LoadSceneAsync(loadingScene, LoadSceneMode.Additive).AwaitAsync(ct);
             
             // ejecutar proceso de carga opcional
             if (loadingTask != null)
@@ -77,13 +82,13 @@ namespace LoadingUtils
             // actualizar barra de progreso
             
             // cargar escena nueva
-            await SceneManager.LoadSceneAsync(sceneToLoad, LoadSceneMode.Additive).AwaitAsync();
+            await SceneManager.LoadSceneAsync(sceneToLoad, LoadSceneMode.Additive).AwaitAsync(ct);
             
             // ejecutar código de transición
             loadedCallback?.Invoke();
             
             // descargar escena vieja
-            await SceneManager.UnloadSceneAsync(currentScene).AwaitAsync();
+            await SceneManager.UnloadSceneAsync(currentScene).AwaitAsync(ct);
 
             // get new scene's event system and disable it
             var eventSystem = Object.FindObjectOfType<EventSystem>();
@@ -94,7 +99,7 @@ namespace LoadingUtils
             
             // descargar escena de carga
             if (!string.IsNullOrEmpty(loadingScene))
-                await SceneManager.UnloadSceneAsync(loadingScene).AwaitAsync();
+                await SceneManager.UnloadSceneAsync(loadingScene).AwaitAsync(ct);
             
             // enable event system again. this prevents an issue
             if (eventSystem)
