@@ -9,15 +9,20 @@ namespace LoadingUtils
     public class LoadingSettings : ScriptableObjectSingleton<LoadingSettings>
     {
         [Header("Bootstrapping")]
-        [SerializeField] private bool _bootstrap;
-        [SerializeField] private bool _bootstrapOnPlayerBuild;
-        [SerializeField] private SceneData _boostrapScene;
+        [SerializeField] private bool _bootstrapInEditor;
+        public bool BootstrapInEditor => _bootstrapInEditor;
         
+        [SerializeField] private bool bootstrapInPlayerBuild;
+        public bool BootstrapInPlayerBuild => bootstrapInPlayerBuild;
+        
+        [SerializeField] private SceneData _boostrapScene;
+        public SceneData BoostrapScene => _boostrapScene;
+
         [Header("(Deprecated) Default loading scene")]
         [SerializeField] private string _defaultLoadingSceneName;
-        [SerializeField] private float minLoadingTime;
-        
         public string DefaultLoadingSceneName => _defaultLoadingSceneName;
+        
+        [SerializeField] private float minLoadingTime;
         public float MinLoadingTime => minLoadingTime;
     }
 }
