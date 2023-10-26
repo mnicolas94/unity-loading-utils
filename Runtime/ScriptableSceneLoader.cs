@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using AsyncUtils;
@@ -8,7 +9,8 @@ using Utils.Attributes;
 
 namespace LoadingUtils
 {
-    [CreateAssetMenu(fileName = "SceneLoader", menuName = "Facticus/LoadingUtils/Scene loader", order = 0)]
+    [Obsolete("Use SceneData instead")]
+    // [CreateAssetMenu(fileName = "SceneLoader", menuName = "Facticus/LoadingUtils/Scene loader", order = 0)]
     public class ScriptableSceneLoader : ScriptableObject
     {
 #if UNITY_EDITOR
