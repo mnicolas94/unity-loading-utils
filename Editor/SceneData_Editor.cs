@@ -64,6 +64,7 @@ namespace ZeShmouttsAssets.DataContainers.EditorScripts
 		SerializedProperty sceneName;
 		SerializedProperty sceneIndex;
 		SerializedProperty scenePath;
+		SerializedProperty _defaultCallByIndex;
 
 		#endregion
 
@@ -77,6 +78,7 @@ namespace ZeShmouttsAssets.DataContainers.EditorScripts
 			sceneName = serializedObject.FindProperty("sceneName");
 			sceneIndex = serializedObject.FindProperty("sceneIndex");
 			scenePath = serializedObject.FindProperty("scenePath");
+			_defaultCallByIndex = serializedObject.FindProperty("_defaultCallIsByIndex");
 
 			EditorBuildSettings.sceneListChanged += HandleExternalSceneListChange;
 		}
@@ -158,6 +160,8 @@ namespace ZeShmouttsAssets.DataContainers.EditorScripts
 			GUI.enabled = wasEnabled;
 
 			EditorGUI.indentLevel--;
+			
+			EditorGUILayout.PropertyField(_defaultCallByIndex, false);
 
 			EditorGUILayout.EndVertical();
 
