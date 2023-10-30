@@ -47,7 +47,7 @@ namespace ZeShmouttsAssets.DataContainers
 		/// </summary>
 		[SerializeField] private string scenePath = null;
 
-		[SerializeField] private bool _defaultCallIsByIndex = true;
+		[SerializeField] private bool _defaultCallIsByIndex = false;
 
 		#endregion
 
