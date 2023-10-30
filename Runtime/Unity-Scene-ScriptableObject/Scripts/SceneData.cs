@@ -47,6 +47,8 @@ namespace ZeShmouttsAssets.DataContainers
 		/// </summary>
 		[SerializeField] private string scenePath = null;
 
+		[SerializeField] private bool _defaultCallIsByIndex = true;
+
 		#endregion
 
 		#region Serialization Callback
@@ -113,13 +115,13 @@ namespace ZeShmouttsAssets.DataContainers
 		/// <returns>Use the AsyncOperation to determine if the operation has completed.</returns>
 		public AsyncOperation LoadAsync(LoadSceneMode mode)
 		{
-			if (sceneIndex >= 0)
+			if (sceneIndex >= 0 && _defaultCallIsByIndex)
 			{
 				return LoadAsyncFromBuildIndex(mode);
 			}
 			else
 			{
-				return LoadAsyncFromPath(mode);
+				return LoadAsyncFromName(mode);
 			}
 		}
 
@@ -130,13 +132,13 @@ namespace ZeShmouttsAssets.DataContainers
 		/// <returns>Use the AsyncOperation to determine if the operation has completed.</returns>
 		public AsyncOperation LoadAsync(LoadSceneParameters parameters)
 		{
-			if (sceneIndex >= 0)
+			if (sceneIndex >= 0 && _defaultCallIsByIndex)
 			{
 				return LoadAsyncFromBuildIndex(parameters);
 			}
 			else
 			{
-				return LoadAsyncFromPath(parameters);
+				return LoadAsyncFromName(parameters);
 			}
 		}
 
