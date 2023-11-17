@@ -18,7 +18,7 @@ namespace LoadingUtils.Loaders
         {
             foreach (var scene in _scenes)
             {
-                await SceneManager.LoadSceneAsync(scene.name).AwaitAsync(ct);
+                await SceneManager.LoadSceneAsync(scene.SceneName).AwaitAsync(ct);
             }
         }
     }
