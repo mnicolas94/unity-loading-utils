@@ -22,7 +22,6 @@ namespace LoadingUtils.LoadersWithProgress
                 while (!operation.isDone)
                 {
                     var overallProgress = sceneTotalProgress * (i + operation.progress);
-                    Debug.Log($"{i}: {overallProgress}");
                     yield return overallProgress;
                 }
             }

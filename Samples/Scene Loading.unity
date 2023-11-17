@@ -575,7 +575,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _loadOnStart: 1
-  _progressSkip: 0
+  _progressSkip: 0.4
   _loaders:
   - mode: 1
     unityReference: {fileID: 0}
@@ -585,7 +585,11 @@ MonoBehaviour:
   - mode: 1
     unityReference: {fileID: 0}
     rawReference:
-      rid: 8927863298263875585
+      rid: 8927863298263875923
+  - mode: 1
+    unityReference: {fileID: 0}
+    rawReference:
+      rid: 8927863298263875924
   _onAllLoaded:
     m_PersistentCalls:
       m_Calls:
@@ -622,13 +626,17 @@ MonoBehaviour:
     - rid: 8927863298263875584
       type: {class: WaitMinTimeLoader, ns: LoadingUtils.Loaders, asm: com.facticus.loadingutils}
       data:
-        _timeToWait: 10
-    - rid: 8927863298263875585
+        _timeToWait: 1
+    - rid: 8927863298263875923
       type: {class: SceneAdditiveLoader, ns: LoadingUtils.LoadersWithProgress, asm: com.facticus.loadingutils}
       data:
         _scenes:
         - {fileID: 11400000, guid: 503036e38d2d6694ca4fe36ae06f4ef3, type: 2}
         - {fileID: 11400000, guid: 293645029af09d449872f4c1603bdd49, type: 2}
+    - rid: 8927863298263875924
+      type: {class: WaitMinTimeLoader, ns: LoadingUtils.LoadersWithProgress, asm: com.facticus.loadingutils}
+      data:
+        _timeToWait: 10
 --- !u!4 &2022760013
 Transform:
   m_ObjectHideFlags: 0
