@@ -1,0 +1,18 @@
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using UnityEngine;
+
+namespace LoadingUtils.Loaders
+{
+    [Serializable]
+    public class WaitMinTimeLoader : ILoader
+    {
+        [SerializeField] private float _timeToWait;
+        
+        public async Task Load(CancellationToken ct)
+        {
+            await AsyncUtils.Utils.Delay(_timeToWait, ct);
+        }
+    }
+}
