@@ -11,9 +11,12 @@ namespace LoadingUtils
 {
     public class MultiLoader : MonoBehaviour, ILoader
     {
-        [SerializeField] private List<SerializableInterface<ILoader>> _loaders;
-
         [SerializeField] private bool _loadOnStart;
+        
+        [SerializeField, Tooltip("The initial progress to notify. Useful to boost progress bars at start.")]
+        private float _progressSkip;
+        
+        [SerializeField] private List<SerializableInterface<ILoader>> _loaders;
         
         [Header("Events")]
         [SerializeField] private UnityEvent _onAllLoaded;
@@ -48,15 +51,15 @@ namespace LoadingUtils
         public async Task Load(CancellationToken ct)
         {
             var total = _loaders.Count;
-            var progress = 0;
-            _onLoadingProgress.Invoke(0);
+            var progress = _progressSkip;
+            _onLoadingProgress.Invoke(progress);
             
             var tasks = _loaders.Select(loader =>
             {
                 var loadTask = loader.Value.Load(ct);
                 void ProgressCallback()
                 {
-                    progress += 1 / total;
+                    progress += (1 - _progressSkip) / total;
                     _onLoadingProgress.Invoke(progress);
                 }
                 
