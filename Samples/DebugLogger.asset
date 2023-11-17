@@ -9,8 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45bbc1e50f4c48e78c6cd5b78311f5d9, type: 3}
-  m_Name: SceneLoader
+  m_Script: {fileID: 11500000, guid: 8fdde30f74c84e3db440c6ac3f567de2, type: 3}
+  m_Name: DebugLogger
   m_EditorClassIdentifier: 
-  _sceneName: SampleScene
-  _loadAdditive: 0

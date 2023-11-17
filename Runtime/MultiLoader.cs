@@ -17,11 +17,13 @@ namespace LoadingUtils
         private float _progressSkip;
         
         [SerializeField] private List<SerializableInterface<ILoader>> _loaders;
+        [SerializeField] private List<SerializableInterface<ILoaderProgress>> _loadersWithProgress;
         
         [Header("Events")]
         [SerializeField] private UnityEvent _onAllLoaded;
         [SerializeField] private UnityEvent<float> _onLoadingProgress;
 
+        private Dictionary<object, float> _loadersProgress = new();
         private CancellationTokenSource _cts;
 
         private void OnEnable()
@@ -50,22 +52,53 @@ namespace LoadingUtils
 
         public async Task Load(CancellationToken ct)
         {
-            var total = _loaders.Count;
+            _loadersProgress.Clear();
+            var total = _loaders.Count + _loadersWithProgress.Count;
             var progress = _progressSkip;
+            var allTasksTotalProgress = 1f - _progressSkip;
+            var singleTaskTotalProgress = allTasksTotalProgress / total;
+
             _onLoadingProgress.Invoke(progress);
+
+            void NotifyProgress()
+            {
+                var prog = _loadersProgress.Sum(x => x.Value) / _loadersProgress.Count;;
+                _onLoadingProgress.Invoke(prog);
+            }
+
+            void NotifyFinishedTask(object loader)
+            {
+                _loadersProgress[loader] = 1f;
+                NotifyProgress();
+            }
             
             var tasks = _loaders.Select(loader =>
             {
+                _loadersProgress.Add(loader, 0);
                 var loadTask = loader.Value.Load(ct);
-                void ProgressCallback()
-                {
-                    progress += (1 - _progressSkip) / total;
-                    _onLoadingProgress.Invoke(progress);
-                }
-                
-                return WaitTaskAndNotifyProgress(loadTask, ProgressCallback);
+                return WaitTaskAndNotifyProgress(loadTask, () => NotifyFinishedTask(loader));
             });
-            await Task.WhenAll(tasks);
+
+            var tasksWithProgress = _loadersWithProgress.Select(loader =>
+            {
+                _loadersProgress.Add(loader, 0);
+                
+                var progressValues = loader.Value.Load();
+                void ProgressCallback(float taskProgress)
+                {
+                    _loadersProgress[loader] = taskProgress;
+                    NotifyProgress();
+                }
+
+                var loadTask = GetIEnumerableTask(progressValues, ProgressCallback);
+                return WaitTaskAndNotifyProgress(loadTask, () => NotifyFinishedTask(loader));
+            });
+
+            var allTasks = tasks.Concat(tasksWithProgress);
+            
+            await Task.WhenAll(allTasks);
+            _loadersProgress.Clear();
+            _onLoadingProgress.Invoke(1f);
             _onAllLoaded.Invoke();
         }
 
@@ -79,6 +112,15 @@ namespace LoadingUtils
         {
             await task;
             progressCallback?.Invoke();
+        }
+
+        private async Task GetIEnumerableTask(IEnumerable<float> enumerable, Action<float> progressAction)
+        {
+            foreach (var progressValue in enumerable)
+            {
+                progressAction(progressValue);
+                await Task.Yield();
+            }
         }
     }
 }
