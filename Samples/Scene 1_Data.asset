@@ -16,3 +16,4 @@ MonoBehaviour:
   sceneName: Scene 1
   sceneIndex: 0
   scenePath: Assets/LoadingUtils/Samples/Scene 1.unity
+  _defaultCallIsByIndex: 1
