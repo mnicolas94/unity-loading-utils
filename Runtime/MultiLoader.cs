@@ -53,12 +53,7 @@ namespace LoadingUtils
         public async Task Load(CancellationToken ct)
         {
             _loadersProgress.Clear();
-            var total = _loaders.Count + _loadersWithProgress.Count;
-            var progress = _progressSkip;
-            var allTasksTotalProgress = 1f - _progressSkip;
-            var singleTaskTotalProgress = allTasksTotalProgress / total;
-
-            _onLoadingProgress.Invoke(progress);
+            _onLoadingProgress.Invoke(_progressSkip);
 
             void NotifyProgress()
             {
@@ -90,7 +85,7 @@ namespace LoadingUtils
                     NotifyProgress();
                 }
 
-                var loadTask = GetIEnumerableTask(progressValues, ProgressCallback);
+                var loadTask = GetIEnumerableTask(progressValues, ProgressCallback, ct);
                 return WaitTaskAndNotifyProgress(loadTask, () => NotifyFinishedTask(loader));
             });
 
@@ -114,10 +109,15 @@ namespace LoadingUtils
             progressCallback?.Invoke();
         }
 
-        private async Task GetIEnumerableTask(IEnumerable<float> enumerable, Action<float> progressAction)
+        private async Task GetIEnumerableTask(IEnumerable<float> enumerable, Action<float> progressAction,
+            CancellationToken ct)
         {
             foreach (var progressValue in enumerable)
             {
+                if (ct.IsCancellationRequested)
+                {
+                    break;
+                }
                 progressAction(progressValue);
                 await Task.Yield();
             }
