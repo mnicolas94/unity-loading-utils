@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace LoadingUtils.LoadersWithProgress
@@ -10,10 +8,14 @@ namespace LoadingUtils.LoadersWithProgress
     public class WaitMinTimeLoader : ILoaderProgress
     {
         [SerializeField] private float _timeToWait;
-        
-        public async Task Load(CancellationToken ct)
+
+        public WaitMinTimeLoader()
         {
-            await AsyncUtils.Utils.Delay(_timeToWait, ct);
+        }
+
+        public WaitMinTimeLoader(float timeToWait)
+        {
+            _timeToWait = timeToWait;
         }
 
         public IEnumerable<float> Load()
