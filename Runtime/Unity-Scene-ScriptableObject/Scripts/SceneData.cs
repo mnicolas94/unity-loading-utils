@@ -64,6 +64,11 @@ namespace ZeShmouttsAssets.DataContainers
 			scenePath = (scene != null) ? AssetDatabase.GetAssetPath(scene) : null;
 			sceneIndex = SceneUtility.GetBuildIndexByScenePath(scenePath);
 		}
+
+		private void OnValidate()
+		{
+			Editor_UpdateValues();
+		}
 #endif
 
 		#endregion
