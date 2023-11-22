@@ -1,11 +1,14 @@
-﻿using LoadingUtils;
+﻿using System;
+using System.Linq;
+using LoadingUtils;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace ZeShmouttsAssets.DataContainers
 {
 	[CreateAssetMenu(fileName = "New Scene Data", menuName = "Facticus/LoadingUtils/Scene Data")]
-	public class SceneData : ScriptableObject, ISerializationCallbackReceiver
+	public class SceneData : ScriptableObject
 	{
 		#region Variables
 
@@ -54,36 +57,14 @@ namespace ZeShmouttsAssets.DataContainers
 
 		#region Serialization
 
-
-		public void UpdateValues()
-		{
 #if UNITY_EDITOR
+		public void Editor_UpdateValues()
+		{
 			sceneName = (scene != null) ? scene.name : null;
-			scenePath = (scene != null) ? UnityEditor.AssetDatabase.GetAssetPath(scene) : null;
+			scenePath = (scene != null) ? AssetDatabase.GetAssetPath(scene) : null;
 			sceneIndex = SceneUtility.GetBuildIndexByScenePath(scenePath);
+		}
 #endif
-		}
-		
-		public void OnValidate()
-		{
-			if (LoadingSettings.Instance.SerializeOnValidate)
-			{
-				UpdateValues();
-			}
-		}
-
-		public void OnAfterDeserialize()
-		{
-
-		}
-
-		public void OnBeforeSerialize()
-		{
-			if (!LoadingSettings.Instance.SerializeOnValidate)
-			{
-				UpdateValues();
-			}
-		}
 
 		#endregion
 

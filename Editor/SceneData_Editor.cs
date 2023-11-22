@@ -37,7 +37,7 @@ namespace ZeShmouttsAssets.DataContainers.EditorScripts
 		/// <param name="scene">SceneAsset used as a reference.</param>
 		private static void CreateSceneData(SceneAsset scene)
 		{
-			SceneData assetObject = ScriptableObject.CreateInstance<SceneData>();
+			SceneData assetObject = CreateInstance<SceneData>();
 			
 			BindingFlags bindFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static;
 			FieldInfo field = typeof(SceneData).GetField("scene", bindFlags);
@@ -48,8 +48,12 @@ namespace ZeShmouttsAssets.DataContainers.EditorScripts
 			string assetPath = string.Format("{0}/{1}_Data.asset", folderPath, scene.name);
 
 			AssetDatabase.CreateAsset(assetObject, assetPath);
+			
+			assetObject.Editor_UpdateValues();
+			EditorUtility.SetDirty(assetObject);
+			
 			AssetDatabase.SaveAssets();
-
+			
 			EditorUtility.FocusProjectWindow();
 
 			Selection.activeObject = assetObject;
@@ -80,16 +84,11 @@ namespace ZeShmouttsAssets.DataContainers.EditorScripts
 			sceneIndex = serializedObject.FindProperty("sceneIndex");
 			scenePath = serializedObject.FindProperty("scenePath");
 			_defaultCallByIndex = serializedObject.FindProperty("_defaultCallIsByIndex");
-
-			EditorBuildSettings.sceneListChanged += HandleExternalSceneListChange;
 		}
 
 		public override void OnInspectorGUI()
 		{
-			if (LoadingSettings.Instance.SerializeOnValidate)
-			{
-				((SceneData) target).UpdateValues();
-			}
+			script.Editor_UpdateValues();
 			serializedObject.Update();
 			
 			DrawScriptField();
@@ -103,17 +102,6 @@ namespace ZeShmouttsAssets.DataContainers.EditorScripts
 				Undo.RecordObject(target, "Field change");
 				serializedObject.ApplyModifiedProperties();
 			}
-		}
-
-		private void OnDisable()
-		{
-			EditorBuildSettings.sceneListChanged -= HandleExternalSceneListChange;
-		}
-
-		private void HandleExternalSceneListChange()
-		{
-			script.OnBeforeSerialize();
-			Repaint();
 		}
 
 		#endregion

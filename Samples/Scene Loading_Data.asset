@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2077f3cfec81adb4f812211b4737f3e6, type: 3}
-  m_Name: Scene 2_Data
+  m_Name: Scene Loading_Data
   m_EditorClassIdentifier: 
-  scene: {fileID: 102900000, guid: 54b47bf1d706ed445953975685e55b0b, type: 3}
-  sceneName: Scene 2
-  sceneIndex: 2
-  scenePath: Assets/LoadingUtils/Samples/Scene 2.unity
+  scene: {fileID: 102900000, guid: 538bc6167d22fee46a58c837b0973581, type: 3}
+  sceneName: Scene Loading
+  sceneIndex: 1
+  scenePath: Assets/LoadingUtils/Samples/Scene Loading.unity
   _defaultCallIsByIndex: 0

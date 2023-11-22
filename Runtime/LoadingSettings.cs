@@ -18,10 +18,6 @@ namespace LoadingUtils
         [SerializeField] private SceneData _boostrapScene;
         public SceneData BoostrapScene => _boostrapScene;
 
-        [Header("Serialization")]
-        [SerializeField] private bool _serializeOnValidate;
-        public bool SerializeOnValidate => _serializeOnValidate;
-
         [Header("(Deprecated) Default loading scene")]
         [SerializeField] private string _defaultLoadingSceneName;
         public string DefaultLoadingSceneName => _defaultLoadingSceneName;
