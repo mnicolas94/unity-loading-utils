@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using ZeShmouttsAssets.DataContainers;
 
 namespace LoadingUtils
 {
@@ -9,6 +10,11 @@ namespace LoadingUtils
         {
             var currentScene = SceneManager.GetActiveScene();
             SceneManager.UnloadSceneAsync(currentScene.name);
+        }
+        
+        public void Unload(SceneData scene)
+        {
+            SceneManager.UnloadSceneAsync(scene.SceneName);
         }
     }
 }
