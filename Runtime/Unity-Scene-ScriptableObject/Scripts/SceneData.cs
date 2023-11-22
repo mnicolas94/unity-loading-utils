@@ -51,7 +51,22 @@ namespace ZeShmouttsAssets.DataContainers
 
 		#endregion
 
-		#region Serialization Callback
+		#region Serialization
+
+
+		private void UpdateValues()
+		{
+			sceneName = (scene != null) ? scene.name : null;
+			scenePath = (scene != null) ? UnityEditor.AssetDatabase.GetAssetPath(scene) : null;
+			sceneIndex = SceneUtility.GetBuildIndexByScenePath(scenePath);
+		}
+		
+		public void OnValidate()
+		{
+#if UNITY_EDITOR
+			// UpdateValues();
+#endif
+		}
 
 		public void OnAfterDeserialize()
 		{
@@ -61,28 +76,11 @@ namespace ZeShmouttsAssets.DataContainers
 		public void OnBeforeSerialize()
 		{
 #if UNITY_EDITOR
-
-			string nameValue = (scene != null) ? scene.name : null;
-			int indexValue = -2;
-			string pathValue = (scene != null) ? UnityEditor.AssetDatabase.GetAssetPath(scene) : null;
-
-			UnityEditor.EditorBuildSettingsScene[] buildSettingsScenes = UnityEditor.EditorBuildSettings.scenes;
-			if (buildSettingsScenes.Length > 0)
+			if (Application.isPlaying)
 			{
-				for (int i = 0; i < buildSettingsScenes.Length; i++)
-				{
-					if (UnityEditor.EditorBuildSettings.scenes[i].path == pathValue)
-					{
-						indexValue = i;
-						break;
-					}
-				}
+				return;
 			}
-
-			sceneName = nameValue;
-			sceneIndex = indexValue;
-			scenePath = pathValue;
-
+			UpdateValues();
 #endif
 		}
 

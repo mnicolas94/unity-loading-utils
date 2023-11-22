@@ -139,7 +139,7 @@ namespace ZeShmouttsAssets.DataContainers.EditorScripts
 
 			EditorGUILayout.PropertyField(sceneObject, false);
 
-			script.OnBeforeSerialize();
+			// script.OnBeforeSerialize();
 
 			EditorGUI.indentLevel++;
 
