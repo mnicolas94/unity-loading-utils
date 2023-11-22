@@ -12,11 +12,15 @@ namespace LoadingUtils
         [SerializeField] private bool _bootstrapInEditor;
         public bool BootstrapInEditor => _bootstrapInEditor;
         
-        [SerializeField] private bool bootstrapInPlayerBuild;
-        public bool BootstrapInPlayerBuild => bootstrapInPlayerBuild;
+        [SerializeField] private bool _bootstrapInPlayerBuild;
+        public bool BootstrapInPlayerBuild => _bootstrapInPlayerBuild;
         
         [SerializeField] private SceneData _boostrapScene;
         public SceneData BoostrapScene => _boostrapScene;
+
+        [Header("Serialization")]
+        [SerializeField] private bool _serializeOnValidate;
+        public bool SerializeOnValidate => _serializeOnValidate;
 
         [Header("(Deprecated) Default loading scene")]
         [SerializeField] private string _defaultLoadingSceneName;

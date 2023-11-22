@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
+using LoadingUtils;
 using UnityEditor;
 using UnityEngine;
 
@@ -85,8 +86,12 @@ namespace ZeShmouttsAssets.DataContainers.EditorScripts
 
 		public override void OnInspectorGUI()
 		{
+			if (LoadingSettings.Instance.SerializeOnValidate)
+			{
+				((SceneData) target).UpdateValues();
+			}
 			serializedObject.Update();
-
+			
 			DrawScriptField();
 
 			EditorGUILayout.Space();
@@ -138,8 +143,6 @@ namespace ZeShmouttsAssets.DataContainers.EditorScripts
 			EditorGUILayout.BeginVertical(GUI.skin.box);
 
 			EditorGUILayout.PropertyField(sceneObject, false);
-
-			// script.OnBeforeSerialize();
 
 			EditorGUI.indentLevel++;
 

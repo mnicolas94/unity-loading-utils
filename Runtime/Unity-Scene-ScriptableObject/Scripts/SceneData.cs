@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using LoadingUtils;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace ZeShmouttsAssets.DataContainers
@@ -54,18 +55,21 @@ namespace ZeShmouttsAssets.DataContainers
 		#region Serialization
 
 
-		private void UpdateValues()
+		public void UpdateValues()
 		{
+#if UNITY_EDITOR
 			sceneName = (scene != null) ? scene.name : null;
 			scenePath = (scene != null) ? UnityEditor.AssetDatabase.GetAssetPath(scene) : null;
 			sceneIndex = SceneUtility.GetBuildIndexByScenePath(scenePath);
+#endif
 		}
 		
 		public void OnValidate()
 		{
-#if UNITY_EDITOR
-			// UpdateValues();
-#endif
+			if (LoadingSettings.Instance.SerializeOnValidate)
+			{
+				UpdateValues();
+			}
 		}
 
 		public void OnAfterDeserialize()
@@ -75,13 +79,10 @@ namespace ZeShmouttsAssets.DataContainers
 
 		public void OnBeforeSerialize()
 		{
-#if UNITY_EDITOR
-			if (Application.isPlaying)
+			if (!LoadingSettings.Instance.SerializeOnValidate)
 			{
-				return;
+				UpdateValues();
 			}
-			UpdateValues();
-#endif
 		}
 
 		#endregion
