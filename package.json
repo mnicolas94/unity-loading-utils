@@ -1,6 +1,6 @@
 {
   "name": "com.facticus.loadingutils",
-  "version": "0.1.31",
+  "version": "0.1.32",
   "displayName": "Loading utils",
   "description": "Unity scene loading utils",
   "unity": "2021.1",
