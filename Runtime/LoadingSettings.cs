@@ -15,6 +15,10 @@ namespace LoadingUtils
         [SerializeField] private bool _bootstrapInPlayerBuild;
         public bool BootstrapInPlayerBuild => _bootstrapInPlayerBuild;
         
+        [SerializeField, Tooltip("Whether to unload and reload the first scene after the bootstrap scene")]
+        private bool _reloadActiveScene;
+        public bool ReloadActiveScene => _reloadActiveScene;
+
         [SerializeField] private SceneData _boostrapScene;
         public SceneData BoostrapScene => _boostrapScene;
 
