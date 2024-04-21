@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bootstrapInEditor: 1
   _bootstrapInPlayerBuild: 0
-  _reloadActiveScene: 0
+  _reloadActiveSceneInEditor: 1
+  _reloadActiveSceneInPlayer: 0
   _boostrapScene: {fileID: 11400000, guid: 0a2ed56a399438f42b9362a4f6ef76fb, type: 2}
   _defaultLoadingSceneName: 
   minLoadingTime: 0

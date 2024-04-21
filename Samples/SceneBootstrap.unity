@@ -133,6 +133,9 @@ GameObject:
   m_Component:
   - component: {fileID: 544330379}
   - component: {fileID: 544330380}
+  - component: {fileID: 544330383}
+  - component: {fileID: 544330382}
+  - component: {fileID: 544330381}
   m_Layer: 0
   m_Name: Log
   m_TagString: Untagged
@@ -182,36 +185,19 @@ MonoBehaviour:
           m_StringArgument: Awake on Bootstrap scene
           m_BoolArgument: 0
         m_CallState: 2
---- !u!1 &810937504
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 810937506}
-  - component: {fileID: 810937505}
-  m_Layer: 0
-  m_Name: SceneBotstrapper
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &810937505
+--- !u!114 &544330381
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 810937504}
+  m_GameObject: {fileID: 544330378}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7bf563a4751545758541cce8ec6ee850, type: 3}
+  m_Script: {fileID: 11500000, guid: b47cd7aedea24898a4838ee66001d21c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _onBootstrap:
+  _onDisable:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 11400000, guid: 9623ec8353ac5514d8af44d416b9be80, type: 2}
@@ -223,9 +209,79 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: On Bootstrap
+          m_StringArgument: OnDisable on Bootstrap scene
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &544330382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544330378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e38d7c5dd561492fb5915fb8dc003af6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onStart:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 9623ec8353ac5514d8af44d416b9be80, type: 2}
+        m_TargetAssemblyTypeName: Utils.ScriptableDebugLogger, com.facticus.utils
+        m_MethodName: DebugMessage
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Start on Bootstrap scene
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &544330383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544330378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e76e19285bb4039917d913bd81fb856, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onEnable:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 9623ec8353ac5514d8af44d416b9be80, type: 2}
+        m_TargetAssemblyTypeName: Utils.ScriptableDebugLogger, com.facticus.utils
+        m_MethodName: DebugMessage
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: OnEnable on Bootstrap scene
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!1 &810937504
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 810937506}
+  m_Layer: 0
+  m_Name: SceneBotstrapper
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!4 &810937506
 Transform:
   m_ObjectHideFlags: 0
