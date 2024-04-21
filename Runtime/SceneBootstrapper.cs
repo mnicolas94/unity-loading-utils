@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Threading;
+using AsyncUtils;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace LoadingUtils
@@ -6,7 +8,7 @@ namespace LoadingUtils
     public static class SceneBootstrapper
     {
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        public static void Init()
+        public static async void Init()
         {
             var loadingSettings = LoadingSettings.Instance;
             
@@ -40,10 +42,12 @@ namespace LoadingUtils
                 
                 // unload current scene and load bootstrap scene
                 var currentScene = SceneManager.GetActiveScene();
+                var currentSceneName = currentScene.name;
                 SceneManager.LoadScene(bootstrapScene.SceneName, LoadSceneMode.Single);
                 
                 // load current scene again
-                SceneManager.LoadSceneAsync(currentScene.name, LoadSceneMode.Additive);
+                await SceneManager.LoadSceneAsync(currentScene.name, LoadSceneMode.Additive).AwaitAsync(CancellationToken.None);
+                SceneManager.SetActiveScene(SceneManager.GetSceneByName(currentSceneName));
             }
             else
             {
