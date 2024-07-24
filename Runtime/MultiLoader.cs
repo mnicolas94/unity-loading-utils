@@ -60,7 +60,7 @@ namespace LoadingUtils
             await Load(ct);
         }
         
-        private async Task Load(CancellationToken ct)
+        public async Task Load(CancellationToken ct)
         {
             if (_loading)
             {
