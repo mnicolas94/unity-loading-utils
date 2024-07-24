@@ -17,6 +17,17 @@ namespace LoadingUtils
             SceneManager.UnloadSceneAsync(scene.SceneName);
         }
 
+        public void UnloadAllExcept(SceneData except)
+        {
+            for (int i = 0; i < SceneManager.sceneCount; i++)
+            {
+                var scene = SceneManager.GetSceneAt(i);
+                if (scene.buildIndex == except.SceneIndex)
+                    continue;
+                SceneManager.UnloadSceneAsync(scene.name);
+            }
+        }
+        
         public void UnloadAll()
         {
             for (int i = 0; i < SceneManager.sceneCount; i++)
