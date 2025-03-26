@@ -28,7 +28,7 @@ namespace LoadingUtils.LoadersWithProgress
                 
                 if (_setFirstAsActive && i == 0)
                 {
-                    SceneManager.SetActiveScene(scene);
+                    SceneManager.SetActiveScene(SceneManager.GetSceneByName(scene.SceneName));
                 }
             }
         }
