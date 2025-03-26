@@ -26,7 +26,7 @@ namespace LoadingUtils
         [SerializeField] private UnityEvent _onAllLoaded;
         [SerializeField] private UnityEvent<float> _onLoadingProgress;
 
-        private Dictionary<object, float> _loadersProgress = new();
+        private readonly Dictionary<object, float> _loadersProgress = new();
         private bool _loading;
         private CancellationTokenSource _cts;
 

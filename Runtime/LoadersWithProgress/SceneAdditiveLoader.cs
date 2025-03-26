@@ -9,6 +9,7 @@ namespace LoadingUtils.LoadersWithProgress
     [Serializable]
     public class SceneAdditiveLoader : ILoaderProgress
     {
+        [SerializeField] private bool _setFirstAsActive;
         [SerializeField] private List<SceneData> _scenes;
 
         public IEnumerable<float> Load()
@@ -23,6 +24,11 @@ namespace LoadingUtils.LoadersWithProgress
                 {
                     var overallProgress = sceneTotalProgress * (i + operation.progress);
                     yield return overallProgress;
+                }
+                
+                if (_setFirstAsActive && i == 0)
+                {
+                    SceneManager.SetActiveScene(scene);
                 }
             }
         }
