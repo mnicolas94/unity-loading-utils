@@ -337,7 +337,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 517963150}
         m_TargetAssemblyTypeName: LoadingUtils.CurrentSceneUnloader, com.facticus.loadingutils
-        m_MethodName: Unload
+        m_MethodName: UnloadCurrent
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -4,9 +4,9 @@ using ZeShmouttsAssets.DataContainers;
 
 namespace LoadingUtils
 {
-    public class CurrentSceneUnloader : MonoBehaviour
+    public class SceneUnloader : MonoBehaviour
     {
-        public void Unload()
+        public void UnloadCurrent()
         {
             var currentScene = SceneManager.GetActiveScene();
             SceneManager.UnloadSceneAsync(currentScene.name);
