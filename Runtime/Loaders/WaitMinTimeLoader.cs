@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace LoadingUtils.Loaders
 {
+    [Obsolete]
     [Serializable]
     public class WaitMinTimeLoader : ILoader
     {
