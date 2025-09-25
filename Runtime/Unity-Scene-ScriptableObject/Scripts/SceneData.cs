@@ -10,6 +10,8 @@ namespace ZeShmouttsAssets.DataContainers
 	[CreateAssetMenu(fileName = "New Scene Data", menuName = "Facticus/LoadingUtils/Scene Data")]
 	public class SceneData : ScriptableObject
 	{
+		public static Action<SceneData> BeforeLoadSceneEvent;
+		
 		#region Variables
 
 #if UNITY_EDITOR
@@ -138,6 +140,7 @@ namespace ZeShmouttsAssets.DataContainers
 		/// <returns>Use the AsyncOperation to determine if the operation has completed.</returns>
 		public AsyncOperation LoadAsyncFromName(LoadSceneMode mode)
 		{
+			BeforeLoadSceneEvent?.Invoke(this);
 			return SceneManager.LoadSceneAsync(sceneName, mode);
 		}
 
@@ -148,6 +151,7 @@ namespace ZeShmouttsAssets.DataContainers
 		/// <returns>Use the AsyncOperation to determine if the operation has completed.</returns>
 		public AsyncOperation LoadAsyncFromName(LoadSceneParameters parameters)
 		{
+			BeforeLoadSceneEvent?.Invoke(this);
 			return SceneManager.LoadSceneAsync(sceneName, parameters);
 		}
 
@@ -162,6 +166,7 @@ namespace ZeShmouttsAssets.DataContainers
 		/// <returns>Use the AsyncOperation to determine if the operation has completed.</returns>
 		public AsyncOperation LoadAsyncFromPath(LoadSceneMode mode)
 		{
+			BeforeLoadSceneEvent?.Invoke(this);
 			return SceneManager.LoadSceneAsync(scenePath, mode);
 		}
 
@@ -172,6 +177,7 @@ namespace ZeShmouttsAssets.DataContainers
 		/// <returns>Use the AsyncOperation to determine if the operation has completed.</returns>
 		public AsyncOperation LoadAsyncFromPath(LoadSceneParameters parameters)
 		{
+			BeforeLoadSceneEvent?.Invoke(this);
 			return SceneManager.LoadSceneAsync(scenePath, parameters);
 		}
 
@@ -186,6 +192,7 @@ namespace ZeShmouttsAssets.DataContainers
 		/// <returns>Use the AsyncOperation to determine if the operation has completed.</returns>
 		public AsyncOperation LoadAsyncFromBuildIndex(LoadSceneMode mode)
 		{
+			BeforeLoadSceneEvent?.Invoke(this);
 			return SceneManager.LoadSceneAsync(sceneIndex, mode);
 		}
 
@@ -196,6 +203,7 @@ namespace ZeShmouttsAssets.DataContainers
 		/// <returns>Use the AsyncOperation to determine if the operation has completed.</returns>
 		public AsyncOperation LoadAsyncFromBuildIndex(LoadSceneParameters parameters)
 		{
+			BeforeLoadSceneEvent?.Invoke(this);
 			return SceneManager.LoadSceneAsync(sceneIndex, parameters);
 		}
 
