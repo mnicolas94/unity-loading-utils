@@ -19,8 +19,10 @@ namespace LoadingUtils
         [SerializeField, Tooltip("The initial progress to notify. Useful to boost progress bars at start.")]
         private float _progressSkip;
         
+        [SerializeField] private List<LoadersBatch> _loadersBatches;
+        
+        [ReadOnly]
         [SerializeField] private List<SerializableInterface<ILoaderProgress>> _loadersWithProgress;
-
         [ReadOnly]
         [SerializeField] private List<SerializableInterface<ILoader>> _loaders;
         [ReadOnly]
@@ -60,12 +62,18 @@ namespace LoadingUtils
             _onLoadingProgress.Invoke(_progressSkip);
 
             using var _ = ListPool<Task>.Get(out var tasksWithProgress);
-            foreach (var loaderWithProgress in _loadersWithProgress)
+
+            foreach (var batch in _loadersBatches)
             {
-                tasksWithProgress.Add(StartLoaderAndGetTask(ct, loaderWithProgress));
+                tasksWithProgress.Clear();
+                foreach (var loaderWithProgress in batch.loaders)
+                {
+                    tasksWithProgress.Add(StartLoaderAndGetTask(ct, loaderWithProgress));
+                }
+            
+                await Task.WhenAll(tasksWithProgress);
             }
             
-            await Task.WhenAll(tasksWithProgress);
             _loadersProgress.Clear();
             _onLoadingProgress.Invoke(1f);
             _onAllLoaded.Invoke();
@@ -121,5 +129,11 @@ namespace LoadingUtils
                 await Task.Yield();
             }
         }
+    }
+
+    [Serializable]
+    public class LoadersBatch
+    {
+        [SerializeField] public List<SerializableInterface<ILoaderProgress>> loaders;
     }
 }
