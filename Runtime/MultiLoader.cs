@@ -34,23 +34,6 @@ namespace LoadingUtils
 
         private readonly Dictionary<object, float> _loadersProgress = new();
         private bool _loading;
-        private CancellationTokenSource _cts;
-
-        private void OnEnable()
-        {
-            _cts = new CancellationTokenSource();
-        }
-
-        private void OnDisable()
-        {
-            if (!_cts.IsCancellationRequested)
-            {
-                _cts.Cancel();
-            }
-
-            _cts.Dispose();
-            _cts = null;
-        }
         
         private void Start()
         {
@@ -62,8 +45,7 @@ namespace LoadingUtils
 
         public async void Load()
         {
-            var ct = _cts.Token;
-            await Load(ct);
+            await Load(destroyCancellationToken);
         }
         
         public async Task Load(CancellationToken ct)
