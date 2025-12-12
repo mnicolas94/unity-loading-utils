@@ -7,6 +7,8 @@ using SerializableCallback;
 using TNRD;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Pool;
+using Utils.Attributes;
 
 namespace LoadingUtils
 {
@@ -17,9 +19,13 @@ namespace LoadingUtils
         [SerializeField, Tooltip("The initial progress to notify. Useful to boost progress bars at start.")]
         private float _progressSkip;
         
-        [SerializeField] private List<SerializableInterface<ILoader>> _loaders;
         [SerializeField] private List<SerializableInterface<ILoaderProgress>> _loadersWithProgress;
+
+        [ReadOnly]
+        [SerializeField] private List<SerializableInterface<ILoader>> _loaders;
+        [ReadOnly]
         [SerializeField] private List<SerializableCallback<CancellationToken, Task>> _loadersFunctions;
+        [ReadOnly]
         [SerializeField] private List<SerializableCallback<IEnumerable<float>>> _loadersWithProgressFunctions;
 
         [Header("Events")]
@@ -71,32 +77,18 @@ namespace LoadingUtils
             _loadersProgress.Clear();
             _onLoadingProgress.Invoke(_progressSkip);
 
-            var tasks = _loaders.Select(loader => StartLoaderAndGetTask(ct, loader));
+            using var _ = ListPool<Task>.Get(out var tasksWithProgress);
+            foreach (var loaderWithProgress in _loadersWithProgress)
+            {
+                tasksWithProgress.Add(StartLoaderAndGetTask(ct, loaderWithProgress));
+            }
             
-            var tasksFunctions = _loadersFunctions.Select(loader => StartLoaderAndGetTask(ct, loader));
-
-            var tasksWithProgress = _loadersWithProgress.Select(loader => StartLoaderAndGetTask(ct, loader));
-            
-            var tasksWithProgressFunctions = _loadersWithProgressFunctions.Select(loader => StartLoaderAndGetTask(ct, loader));
-
-            var allTasks = tasks
-                .Concat(tasksFunctions)
-                .Concat(tasksWithProgress)
-                .Concat(tasksWithProgressFunctions);
-            
-            await Task.WhenAll(allTasks);
+            await Task.WhenAll(tasksWithProgress);
             _loadersProgress.Clear();
             _onLoadingProgress.Invoke(1f);
             _onAllLoaded.Invoke();
         
             _loading = false;
-        }
-
-        private Task StartLoaderAndGetTask(CancellationToken ct, SerializableInterface<ILoader> loader)
-        {
-            _loadersProgress.Add(loader, 0);
-            var loadTask = loader.Value.Load(ct);
-            return WaitTaskAndNotifyProgress(loadTask, loader);
         }
 
         private Task StartLoaderAndGetTask(CancellationToken ct, SerializableInterface<ILoaderProgress> loader)
@@ -112,29 +104,6 @@ namespace LoadingUtils
             }
 
             var loadTask = GetIEnumerableTask(progressValues, ProgressCallback, ct);
-            return WaitTaskAndNotifyProgress(loadTask, loader);
-        }
-        
-        private Task StartLoaderAndGetTask(CancellationToken ct, SerializableCallback<IEnumerable<float>> loader)
-        {
-            _loadersProgress.Add(loader, 0);
-
-            var progressValues = loader.Invoke();
-
-            void ProgressCallback(float taskProgress)
-            {
-                _loadersProgress[loader] = taskProgress;
-                NotifyProgress();
-            }
-
-            var loadTask = GetIEnumerableTask(progressValues, ProgressCallback, ct);
-            return WaitTaskAndNotifyProgress(loadTask, loader);
-        }
-
-        private Task StartLoaderAndGetTask(CancellationToken ct, SerializableCallback<CancellationToken, Task> loader)
-        {
-            _loadersProgress.Add(loader, 0);
-            var loadTask = loader.Invoke(ct);
             return WaitTaskAndNotifyProgress(loadTask, loader);
         }
 
