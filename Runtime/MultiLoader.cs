@@ -134,6 +134,7 @@ namespace LoadingUtils
     [Serializable]
     public class LoadersBatch
     {
+        public static string LoadersPropertyName = nameof(loaders);
         [SerializeField] public List<SerializableInterface<ILoaderProgress>> loaders;
     }
 }

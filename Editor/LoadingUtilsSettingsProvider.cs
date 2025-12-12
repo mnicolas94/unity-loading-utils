@@ -1,6 +1,5 @@
 ﻿using UnityEditor;
 using UnityEngine;
-using Utils.Editor;
 using Utils.Editor.EditorGUIUtils;
 
 namespace LoadingUtils.Editor
