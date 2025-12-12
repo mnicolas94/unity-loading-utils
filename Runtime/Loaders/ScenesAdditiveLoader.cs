@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,7 +10,7 @@ using ZeShmouttsAssets.DataContainers;
 namespace LoadingUtils.Loaders
 {
     [Obsolete]
-    [Serializable]
+    // [Serializable]
     public class ScenesAdditiveLoader : ILoader
     {
         [SerializeField] private List<SceneData> _scenes;

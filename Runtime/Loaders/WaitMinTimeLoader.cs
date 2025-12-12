@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -6,7 +6,7 @@ using UnityEngine;
 namespace LoadingUtils.Loaders
 {
     [Obsolete]
-    [Serializable]
+    // [Serializable]
     public class WaitMinTimeLoader : ILoader
     {
         [SerializeField] private float _timeToWait;
