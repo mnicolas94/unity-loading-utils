@@ -1,4 +1,3 @@
-using LoadingUtils;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -16,19 +15,36 @@ namespace LoadingUtils.Editor
             var loadersProperty = property.FindPropertyRelative(LoadersBatch.LoadersPropertyName);
             var propertyField = new PropertyField(loadersProperty);
             
-            propertyField.RegisterCallbackOnce<GeometryChangedEvent>(evt =>
+            propertyField.RegisterCallback<AttachToPanelEvent>(evt =>
             {
-                var listView = propertyField.Q<ListView>();
-                if (listView != null)
+                propertyField.schedule.Execute(() =>
                 {
-                    listView.showFoldoutHeader = false;
-                    listView.showBoundCollectionSize = false;
-                }
+                    var listView = propertyField.Q<ListView>();
+                    if (listView != null)
+                    {
+                        listView.showFoldoutHeader = false;
+                        listView.showBoundCollectionSize = false;
+                    }
+                });
             });
             
             root.Add(propertyField);
             
             return root;
+        }
+        
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        {
+            EditorGUI.BeginProperty(position, label, property);
+
+            EditorGUI.PropertyField(position, property, label, true);
+
+            EditorGUI.EndProperty();
+        }
+
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+        {
+            return EditorGUI.GetPropertyHeight(property, label, true);
         }
     }
 }
