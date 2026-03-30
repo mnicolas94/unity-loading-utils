@@ -6,9 +6,15 @@ namespace LoadingUtils
 {
     public class SceneUnloader : MonoBehaviour
     {
-        public void UnloadCurrent()
+        public void UnloadActive()
         {
             var currentScene = SceneManager.GetActiveScene();
+            SceneManager.UnloadSceneAsync(currentScene.name);
+        }
+        
+        public void UnloadCurrent()
+        {
+            var currentScene = gameObject.scene;
             SceneManager.UnloadSceneAsync(currentScene.name);
         }
         
